@@ -64,15 +64,29 @@ const indexDate = (dateZero, index) => {
 }
 
 window.main = () => {
+  const slider = document.getElementById("slider");
+  const dateDiv = document.getElementById("date");
+  const backButton = document.getElementById("back");
+  const dayZero = firstDate();
+  const numDays = numberOfDays();
+  slider.max = numDays
+  slider.value = numDays;
+  const displayDate = indexDate(dayZero, numDays);
+  dateDiv.innerText = displayDate;
+
+  window.addEventListener('scroll', (e) => {
+    console.log(e);
+  })
+
   const width = 975;
   const height = 610;
 
   const path = d3.geoPath()
   const us = window.states;
 
-  const zoom = d3.zoom()
-      .scaleExtent([1, 8])
-      .on("zoom", zoomed);
+  // const zoom = d3.zoom()
+  //     .scaleExtent([1, 1])
+  //     .on("zoom", zoomed);
 
   const svg = d3.select('#map')
       .append('svg')
@@ -86,11 +100,11 @@ window.main = () => {
     g.append("g")
       .attr("fill", "#444")
       .attr("stroke", "black")
-      .attr("cursor", "pointer")
+      // .attr("cursor", "pointer")
     .selectAll("path")
     .data([state])
     .join("path")
-      .attr("fill", color(state.properties.name, '2020-04-10'))
+      .attr("fill", color(state.properties.name, displayDate))
       .on("click", clicked)
       .attr("d", path)
     .append("title")
@@ -103,18 +117,7 @@ window.main = () => {
       .attr("stroke-linejoin", "round")
       .attr("d", path(topojson.mesh(us, us.objects.states, (a, b) => a !== b)));
 
-  svg.call(zoom);
-
-  const slider = document.getElementById("slider");
-  const dateDiv = document.getElementById("date");
-  const backButton = document.getElementById("back");
-  const dayZero = firstDate();
-  const numDays = numberOfDays();
-  slider.max = numDays
-  slider.value = numDays;
-
-  const displayDate = indexDate(dayZero, numDays);
-  dateDiv.innerText = displayDate;
+  // svg.call(zoom);
 
   slider.oninput = (e) => {
     const day = e.target.value;
@@ -152,7 +155,7 @@ window.main = () => {
   }
 
   function clicked(d) {
-    backButton.style.display = 'block';
+    // backButton.style.display = 'block';
     const [[x0, y0], [x1, y1]] = path.bounds(d);
     d3.event.stopPropagation();
     svg.transition().duration(750).call(
@@ -165,7 +168,7 @@ window.main = () => {
     );
   }
 
-  function zoomed() {
+  function zoomed(e) {
     const {transform} = d3.event;
     g.attr("transform", transform);
     g.attr("stroke-width", 1 / transform.k);

@@ -26,6 +26,13 @@ body {
   font-weight: 200;
   color: #898c89;
   font-size: 25px;
+  display: flex;
+  align-items: center;
+}
+
+
+.logo img {
+  height:40px;
 }
 
 .dot {
@@ -69,10 +76,7 @@ body {
   margin: 30px;
 }
 
-
-
 #map {
-  border: solid 1px grey;
   margin-top: 15px;
 }
 
