@@ -1,11 +1,5 @@
-const color = (stateName, date) => {
 
-  const receding = 'rgba(178,230,114,1)';
-  const flattening = 'rgba(255,253,136,1)';
-  const growing = 'rgba(255,212,120,1)';
-  const yikes = 'rgba(249,107,133,1)';
-  const unknown = 'grey'
-
+const color = (stateName, date, isLatest) => {
   const state = window.state_states[stateName];
   if (!state) {
     return unknown;
@@ -13,20 +7,43 @@ const color = (stateName, date) => {
 
   const state_date = state[date];
   if (!state_date) {
-    return receding;
+    const unknown = 'grey'
+    return unknown;
   }
 
-  if (state_date.receding <= 0) {
-    return receding;
-  } else if (state_date.flattening <= 0) {
-    return flattening;
+  if (state_date.state === 'no_cases') {
+    const no_cases = 'rgba(178,230,114,1)';
+    return no_cases;
   }
 
-  const red = 255 - (255 - 249) * Math.max(Math.min(state_date.flattening, 1), 0);
-  const green = 212 - (212-107) * Math.max(Math.min(state_date.flattening, 1), 0);
-  const blue = 120 + (133-120) * Math.max(Math.min(state_date.flattening, 1), 0);
+  if (!isLatest && state_date.grow_value === 1) {
+    return 'red';
+  }
 
-  return `rgba(${red},${green},${blue},1)`;
+  if (state_date.state === 'growing') {
+    const growing = 'rgba(255,212,120,1)';
+    const yikes = 'rgba(249,107,133,1)';
+    // 255 -> 249
+    const red = 255 - (255 - 249) * state_date.grow_value;
+    // 212 -> 107
+    const green = 212 - (212 - 107) * state_date.grow_value;
+    // 120 -> 133
+    const blue = 120 + (133 - 120) * state_date.grow_value;
+    return `rgba(${red},${green},${blue},1)`;
+  } else if (state_date.state === 'flattening') {
+    const flattening = 'rgba(255,253,136,1)';
+    const yikes = 'rgba(249,107,133,1)';
+    // 255 -> 249
+    const red = 255 - (255 - 249) * state_date.grow_value;
+    // 253 -> 107
+    const green = 253 - (253-107) * state_date.grow_value;
+    // 136 -> 133
+    const blue = 136 - (136-133) * state_date.grow_value;
+    return `rgba(${red},${green},${blue},1)`;
+  }
+
+  const receding = 'rgba(178,230,114,1)';
+  return receding
 }
 
 const firstDate = () => {
@@ -104,7 +121,7 @@ window.main = () => {
     .selectAll("path")
     .data([state])
     .join("path")
-      .attr("fill", color(state.properties.name, displayDate))
+      .attr("fill", color(state.properties.name, displayDate, true))
       .on("click", clicked)
       .attr("d", path)
     .append("title")
@@ -133,7 +150,7 @@ window.main = () => {
       .selectAll("path")
       .data([state])
       .join("path")
-        .attr("fill", color(state.properties.name, date))
+        .attr("fill", color(state.properties.name, date, date === displayDate))
         .on("click", clicked)
         .attr("d", path)
       .append("title")
