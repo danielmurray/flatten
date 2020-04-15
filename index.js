@@ -16,7 +16,7 @@ const color = (stateName, date, isLatest) => {
     return no_cases;
   }
 
-  if (!isLatest && state_date.grow_value === 1) {
+  if (state_date.grow_value === 1) {
     return 'red';
   }
 
