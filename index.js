@@ -1,3 +1,10 @@
+const gradient = (vector1, vector2, scalar) => {
+  return vector1.map((v1, i) => {
+    v2 = vector2[i]
+    console.log(v1, v2)
+    return v1 - ( v1 -  v2) * scalar
+  });
+}
 
 const color = (stateName, date, isLatest) => {
   const state = window.state_states[stateName];
@@ -13,7 +20,7 @@ const color = (stateName, date, isLatest) => {
 
   if (state_date.state === 'no_cases') {
     const no_cases = 'rgba(178,230,114,1)';
-    return no_cases;
+    return '#FFF';
   }
 
   if (state_date.grow_value === 1) {
@@ -21,25 +28,16 @@ const color = (stateName, date, isLatest) => {
   }
 
   if (state_date.state === 'growing') {
-    const growing = 'rgba(255,212,120,1)';
-    const yikes = 'rgba(249,107,133,1)';
-    // 255 -> 249
-    const red = 255 - (255 - 249) * state_date.grow_value;
-    // 212 -> 107
-    const green = 212 - (212 - 107) * state_date.grow_value;
-    // 120 -> 133
-    const blue = 120 + (133 - 120) * state_date.grow_value;
-    return `rgba(${red},${green},${blue},1)`;
+    const growing = [255, 212, 120];
+    const peak = [249, 107, 133];
+    const rgb = gradient(growing, peak, state_date.grow_value);
+    return `rgba(${rgb.join(',')},1)`;
   } else if (state_date.state === 'flattening') {
-    const flattening = 'rgba(255,253,136,1)';
-    const yikes = 'rgba(249,107,133,1)';
-    // 255 -> 249
-    const red = 255 - (255 - 249) * state_date.grow_value;
-    // 253 -> 107
-    const green = 253 - (253-107) * state_date.grow_value;
-    // 136 -> 133
-    const blue = 136 - (136-133) * state_date.grow_value;
-    return `rgba(${red},${green},${blue},1)`;
+    const receding = [178,230,114]
+    const flattening = [255, 253, 136];
+    const peak = [249, 107, 133];
+    const rgb = gradient(receding, peak, state_date.grow_value);
+    return `rgba(${rgb.join(',')},1)`;
   }
 
   const receding = 'rgba(178,230,114,1)';
