@@ -127,6 +127,7 @@ window.main = () => {
       .attr("stroke-linejoin", "round")
       .attr("d", path(topojson.mesh(us, us.objects.states, (a, b) => a !== b)));
 
+  slider.style.display = 'block';
   // svg.call(zoom);
 
   slider.oninput = (e) => {

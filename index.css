@@ -138,6 +138,7 @@ body {
 }
 
 #slider {
+  display: none;
   width: 100%;
 }
 
