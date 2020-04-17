@@ -84,6 +84,7 @@ body {
 .source {
   font-size: 10px;
   font-family: monospace;
+  margin: 0px 30px 0px 30px;
 }
 
 .mapWrapper {
