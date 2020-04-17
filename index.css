@@ -24,30 +24,42 @@ body {
 .logo {
   font-family: monospace;
   font-weight: 200;
-  color: #898c89;
+  color: #000;
   font-size: 25px;
   display: flex;
   align-items: center;
 }
 
-
 .logo img {
   height:40px;
 }
 
-.dot {
-  font-size: 50px;
-  line-height: 25px;
-  color: rgba(249,107,133,1);
+.right {
+  display: flex;
+  align-items: center;
 }
+
+.help {
+  font-family: monospace;
+  font-weight: 200;
+  font-size: 20px;
+  margin-right: 30px;
+}
+
+.help a {
+  color: #000;
+  text-decoration: none;
+  opacity: 1;
+}
+
+.help a:hover {
+  opacity: 0.6;
+}
+
 
 .content {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.key {
-
 }
 
 .scale {
@@ -89,7 +101,7 @@ body {
 
 .mapWrapper {
   position: relative;
-  margin: 0 30px 30px 30px;
+  margin: 0 40px 15px 40px;
 }
 
 #map {
