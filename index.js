@@ -1,7 +1,6 @@
 const gradient = (vector1, vector2, scalar) => {
   return vector1.map((v1, i) => {
     v2 = vector2[i]
-    console.log(v1, v2)
     return v1 - ( v1 -  v2) * scalar
   });
 }
@@ -18,30 +17,25 @@ const color = (stateName, date, isLatest) => {
     return unknown;
   }
 
-  if (state_date.state === 'no_cases') {
-    const no_cases = 'rgba(178,230,114,1)';
-    return '#FFF';
-  }
+  const receding = [178,230,114]
+  const flattening = [255, 253, 136];
+  const growing = [255, 212, 120];
+  const peak = [249, 107, 133];
 
-  if (state_date.grow_value === 1) {
-    return 'red';
-  }
-
-  if (state_date.state === 'growing') {
-    const growing = [255, 212, 120];
-    const peak = [249, 107, 133];
-    const rgb = gradient(growing, peak, state_date.grow_value);
+  const { growth_factor } = state_date;
+  if (growth_factor < 0.5) {
+    return `rgba(${receding.join(',')},1)`;
+  } else if (growth_factor < 1) {
+    const scalar = (growth_factor - 0.5) / 0.5;
+    const rgb = gradient(receding, flattening, scalar);
     return `rgba(${rgb.join(',')},1)`;
-  } else if (state_date.state === 'flattening') {
-    const receding = [178,230,114]
-    const flattening = [255, 253, 136];
-    const peak = [249, 107, 133];
-    const rgb = gradient(receding, peak, state_date.grow_value);
+  } else if (growth_factor < 1.5) {
+    const scalar = (growth_factor - 1.0) / 0.5;
+    const rgb = gradient(growing, peak, scalar);
     return `rgba(${rgb.join(',')},1)`;
+  } else {
+    return `rgba(${peak.join(',')},1)`;
   }
-
-  const receding = 'rgba(178,230,114,1)';
-  return receding
 }
 
 const firstDate = () => {
@@ -123,6 +117,7 @@ window.main = () => {
       .on("click", clicked)
       .attr("d", path)
     .append("title")
+      // .text(d => window.state_states[d.properties.name].growth_factor);
       .text(d => d.properties.name);
   });
 
@@ -152,7 +147,7 @@ window.main = () => {
         .on("click", clicked)
         .attr("d", path)
       .append("title")
-        .text(d => d.properties.name);
+        .text(d => window.state_states[d.properties.name].growth_factor);
     });
   }
 
