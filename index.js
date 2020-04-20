@@ -135,10 +135,6 @@ window.main = () => {
   currentMonthDiv.innerText = Months[currentDate.getMonth()];
   currentDateDiv.innerText = currentDate.getUTCDate();
 
-  // console.log(numDays);
-  // console.log(currentDayIndex);
-  // console.log(currentDate.getUTCDate());
-
   const width = 975;
   const height = 610;
 
@@ -181,6 +177,8 @@ window.main = () => {
       .attr("d", path(topojson.mesh(us, us.objects.states, (a, b) => a !== b)));
 
   // svg.call(zoom);
+  const cd = document.getElementById("cd");
+  cd.style.display = 'flex';
 
   const dateSlider = renderDateSlider(dayZero, numDays - 1);
   let scrollWidth = dateSlider.scrollWidth;

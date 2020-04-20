@@ -174,12 +174,12 @@ body {
 }
 
 .currentDate {
+  display: none;
   font-family: monospace;
   width: 20%;
   height: 200px;
   border: solid 2px grey;
   margin: 0 auto;
-  display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
