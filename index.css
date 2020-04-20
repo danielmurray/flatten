@@ -127,7 +127,6 @@ body {
 .slider {
   display: flex;
   align-items: flex-end;
-  padding-bottom: 10px;
   margin-top: -10vh;
 }
 
@@ -205,6 +204,10 @@ body {
 
 #currentDate {
   font-size: 4em
+}
+
+.indicator {
+  font-family: monospace;
 }
 
 .bmc-button{
