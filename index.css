@@ -136,6 +136,18 @@ body {
   display: flex;
   overflow: auto;
   scroll-snap-type: x;
+
+}
+
+#dateSlider::-webkit-scrollbar {
+  -webkit-appearance: none;
+  height: 7px;
+}
+
+#dateSlider::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 .spacer {
@@ -150,6 +162,7 @@ body {
   flex-grow: 0;
   flex-shrink: 0;
   scroll-snap-align: end;
+  margin-bottom: 2px;
 }
 
 .date {
