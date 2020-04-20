@@ -127,7 +127,7 @@ body {
 .slider {
   display: flex;
   align-items: flex-end;
-  margin-top: -10vh;
+  margin-top: -5vh;
 }
 
 #dateSlider {
