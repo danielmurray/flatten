@@ -22,20 +22,31 @@ const color = (stateName, date) => {
   const growing = [255, 212, 120];
   const peak = [249, 107, 133];
 
-  const { growth_factor } = state_date;
-  if (growth_factor < 0.5) {
-    return `rgba(${receding.join(',')},1)`;
-  } else if (growth_factor < 1) {
-    const scalar = (growth_factor - 0.5) / 0.5;
+  const { growth_factor, ratio } = state_date;
+
+  if (ratio < 0.5) {
+    const scalar = ratio / 0.5;
     const rgb = gradient(receding, flattening, scalar);
     return `rgba(${rgb.join(',')},1)`;
-  } else if (growth_factor < 1.5) {
-    const scalar = (growth_factor - 1.0) / 0.5;
-    const rgb = gradient(growing, peak, scalar);
-    return `rgba(${rgb.join(',')},1)`;
   } else {
-    return `rgba(${peak.join(',')},1)`;
+    const scalar = (ratio - 0.5) / 0.5;
+    const rgb = gradient(flattening, peak, scalar);
+    return `rgba(${rgb.join(',')},1)`;
   }
+
+  // if (growth_factor < 0.5) {
+  //   return `rgba(${receding.join(',')},1)`;
+  // } else if (growth_factor < 1) {
+  //   const scalar = (growth_factor - 0.5) / 0.5;
+  //   const rgb = gradient(receding, flattening, scalar);
+  //   return `rgba(${rgb.join(',')},1)`;
+  // } else if (growth_factor < 1.5) {
+  //   const scalar = (growth_factor - 1.0) / 0.5;
+  //   const rgb = gradient(growing, peak, scalar);
+  //   return `rgba(${rgb.join(',')},1)`;
+  // } else {
+  //   return `rgba(${peak.join(',')},1)`;
+  // }
 }
 
 const firstDate = () => {
