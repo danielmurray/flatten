@@ -2,12 +2,8 @@ import csv
 import datetime
 import json
 import math
-import numpy as np
 import requests
 import datetime
-
-import matplotlib
-import matplotlib.pyplot as plt
 
 def mean(nums):
     return float(sum(nums)) / len(nums)
