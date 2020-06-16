@@ -1,0 +1,32 @@
+name: Aggregate
+
+on:
+  schedule:
+    - cron:  '35 21 * * *'
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Collect and aggregate data
+      run: python aggregate.py
+    
+    - name: Commiting changes
+      uses: stefanzweifel/git-auto-commit-action@v4.3.0
+      with:
+        commit_message: 'updating data...'
+
+
+
+
+
+
+
+
+
+
+
+
