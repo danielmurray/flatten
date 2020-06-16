@@ -2,7 +2,7 @@ name: Aggregate
 
 on:
   schedule:
-    - cron:  '05 3 * * *'
+    - cron:  '20 3 * * *'
 
 jobs:
   build:
@@ -10,6 +10,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Install python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
 
     - name: Collect and aggregate data
       run: python aggregate.py
