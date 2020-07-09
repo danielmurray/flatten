@@ -137,12 +137,14 @@ def main():
 
     max_date = ''
     state_county_dates = {}
+    counties_dates = {}
     dates = []
     for i, row in enumerate(data):
         if i is 0:
             dates = row[index:]
             continue
 
+        countyID = row[0]
         county = row[5]
         state = row[6]
         county_dates = row[index:]
@@ -150,7 +152,7 @@ def main():
         if state not in state_county_dates:
             state_county_dates[state] = {}
 
-        state_county_dates[state][county] = county_dates
+        state_county_dates[state][countyID] = county_dates
 
     iso_dates = []
     for date in dates:
@@ -163,12 +165,14 @@ def main():
         iso_dates.append(d.isoformat())
 
     states_dates = {}
+    counties_dates = {}
     us_dates = {}
     for state, counties in state_county_dates.items():
         if state not in states_dates:
             states_dates[state] = {}
 
         for county, county_dates in counties.items():
+
             for i, cases in enumerate(county_dates):
                 date = iso_dates[i]
 
@@ -178,23 +182,39 @@ def main():
                 if date not in states_dates[state]:
                     states_dates[state][date] = 0
 
+                if county not in counties_dates:
+                    counties_dates[county] = {}
+
                 states_dates[state][date] += int(float(cases))
+                counties_dates[county][date] = int(float(cases))
 
                 if date not in us_dates:
                     us_dates[date] = 0
 
                 us_dates[date] += int(float(cases))
 
-    states_date_states = {}
-    for state, state_dates in states_dates.items():
+    # states_date_states = {}
+    # for state, state_dates in states_dates.items():
+    #     # if state != 'New York':
+    #     #     continue
+    #     state_date_states = best_fit_state(state_dates)
+    #     states_date_states[state] = state_date_states
+    #
+    # file='state_states.js'
+    # with open(file, 'w') as filetowrite:
+    #     filetowrite.write('window.state_states = ' + json.dumps(states_date_states))
+    # print(max_date)
+
+    counties_date_states = {}
+    for county, county_dates in counties_dates.items():
         # if state != 'New York':
         #     continue
-        state_date_states = best_fit_state(state_dates)
-        states_date_states[state] = state_date_states
+        county_date_states = best_fit_state(county_dates)
+        counties_date_states[county] = county_date_states
 
-    file='state_states.js'
+    file='county_states.js'
     with open(file, 'w') as filetowrite:
-        filetowrite.write('window.state_states = ' + json.dumps(states_date_states))
+        filetowrite.write('window.county_states = ' + json.dumps(counties_date_states))
     print(max_date)
 
     # for date in sorted_dates:
