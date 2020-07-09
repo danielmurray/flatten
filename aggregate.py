@@ -94,7 +94,7 @@ def best_fit_state(state_dates):
             # growth_factor
         )
         date_states[date] = {
-            'growth_factor': growth_factor,
+            # 'growth_factor': growth_factor,
             'ratio': int(delta) / max_delta,
         }
 

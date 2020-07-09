@@ -68,7 +68,7 @@ const countyColor = (county, date) => {
     return unknown;
   }
 
-  const { growth_factor, ratio } = county_date;
+  const { ratio } = county_date;
 
   if (ratio < 0.5) {
     const scalar = ratio / 0.5;
